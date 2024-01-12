@@ -3,14 +3,14 @@ package sk2.reservationservice.dto;
 public class ReservationCreateDto {
 
     private Long userId;
-    private Long projectionId;
+    private Long sessionId;
 
     public ReservationCreateDto() {
     }
 
-    public ReservationCreateDto(Long userId, Long projectionId) {
+    public ReservationCreateDto(Long userId, Long sessionId) {
         this.userId = userId;
-        this.projectionId = projectionId;
+        this.sessionId = sessionId;
     }
 
     public Long getUserId() {
@@ -21,11 +21,11 @@ public class ReservationCreateDto {
         this.userId = userId;
     }
 
-    public Long getProjectionId() {
-        return projectionId;
+    public Long getSessionId() {
+        return sessionId;
     }
 
-    public void setProjectionId(Long projectionId) {
-        this.projectionId = projectionId;
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 }

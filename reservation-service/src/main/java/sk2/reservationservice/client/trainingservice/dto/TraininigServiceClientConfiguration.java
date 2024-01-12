@@ -1,4 +1,4 @@
-package sk2.reservationservice.client.movieservice.dto;
+package sk2.reservationservice.client.trainingservice.dto;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Configuration
-public class MovieServiceClientConfiguration {
+public class TraininigServiceClientConfiguration {
 
     @Bean
-    public RestTemplate movieServiceRestTemplate() {
+    public RestTemplate trainingServiceRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("http://localhost:8081/api"));
         restTemplate.setInterceptors(Collections.singletonList(new TokenInterceptor()));

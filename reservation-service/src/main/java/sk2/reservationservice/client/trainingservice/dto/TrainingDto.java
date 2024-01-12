@@ -1,9 +1,9 @@
-package sk2.reservationservice.client.movieservice.dto;
+package sk2.reservationservice.client.trainingservice.dto;
 
-public class MovieDto {
+public class TrainingDto {
 
     private Long id;
-    private String title;
+    private String name;
     private String description;
 
     public Long getId() {
@@ -14,12 +14,12 @@ public class MovieDto {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String title) {
+        this.name = name;
     }
 
     public String getDescription() {
