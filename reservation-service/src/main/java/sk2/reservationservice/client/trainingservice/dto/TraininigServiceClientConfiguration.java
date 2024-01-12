@@ -30,7 +30,8 @@ public class TraininigServiceClientConfiguration {
         public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes,
                                             ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
             HttpHeaders headers = httpRequest.getHeaders();
-            headers.add("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfQURNSU4ifQ.dEuh0NrmaqBXOV5RrlIfUkTcKhXUJK0lf4gc7uanyuTmiTOdSkPEsMfB7CPt1pGOYz7JyVilV3cTs6u4IQtc7Q");
+            headers.add("Authorization",
+                    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfQURNSU4ifQ.dEuh0NrmaqBXOV5RrlIfUkTcKhXUJK0lf4gc7uanyuTmiTOdSkPEsMfB7CPt1pGOYz7JyVilV3cTs6u4IQtc7Q");
             return clientHttpRequestExecution.execute(httpRequest, bytes);
         }
     }

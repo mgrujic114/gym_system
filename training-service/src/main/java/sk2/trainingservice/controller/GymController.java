@@ -1,9 +1,10 @@
 package sk2.trainingservice.controller;
 
-import sk2.trainingservice.dto.TrainingCreateDto;
-import sk2.trainingservice.dto.TrainingDto;
+
+import sk2.trainingservice.dto.GymCreateDto;
+import sk2.trainingservice.dto.GymDto;
 import sk2.trainingservice.secutiry.CheckSecurity;
-import sk2.trainingservice.service.TrainingService;
+import sk2.trainingservice.service.GymService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -17,16 +18,16 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/training")
-public class TrainingController {
+@RequestMapping("/gym")
+public class GymController {
 
-    private TrainingService movieService;
+    private GymService screenService;
 
-    public TrainingController(TrainingService movieService) {
-        this.movieService = movieService;
+    public GymController(GymService screenService) {
+        this.screenService = screenService;
     }
 
-    @ApiOperation(value = "Get all movies")
+    @ApiOperation(value = "Get all screens")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "What page number you want", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "Number of items to return", dataType = "string", paramType = "query"),
@@ -35,27 +36,27 @@ public class TrainingController {
                             "Default sort order is ascending. " +
                             "Multiple sort criteria are supported.")})
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_USER", "ROLE_ADMIN", "ROLE_MANAGER"})
-    public ResponseEntity<Page<TrainingDto>> findAll(@RequestHeader("Authorization") String authorization, @ApiIgnore Pageable pageable) {
-        return new ResponseEntity<>(movieService.findAll(pageable), HttpStatus.OK);
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    public ResponseEntity<Page<GymDto>> findAll(@RequestHeader("Authorization") String authorization, @ApiIgnore Pageable pageable) {
+        return new ResponseEntity<>(screenService.findAll(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_USER", "ROLE_ADMIN", "ROLE_MANAGER"})
-    public ResponseEntity<TrainingDto> findById(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
-        return new ResponseEntity<>(movieService.findById(id), HttpStatus.OK);
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    public ResponseEntity<GymDto> findById(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
+        return new ResponseEntity<>(screenService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<TrainingDto> add(@RequestHeader("Authorization") String authorization, @RequestBody @Valid TrainingCreateDto movieCreateDto) {
-        return new ResponseEntity<>(movieService.add(movieCreateDto), HttpStatus.CREATED);
+    public ResponseEntity<GymDto> add(@RequestHeader("Authorization") String authorization, @RequestBody @Valid GymCreateDto screenCreateDto) {
+        return new ResponseEntity<>(screenService.add(screenCreateDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<?> delete(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
-        movieService.deleteById(id);
+        screenService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
