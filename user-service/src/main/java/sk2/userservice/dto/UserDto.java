@@ -1,6 +1,8 @@
 package sk2.userservice.dto;
+;
 
-public abstract class UserDto {
+
+public class UserDto {
 
     private Long id;
     private String email;
