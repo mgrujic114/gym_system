@@ -13,16 +13,16 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
-    private Long projectionId;
+    private Long sessionId;
     private BigDecimal price;
 
     public Reservation() {
 
     }
 
-    public Reservation(Long userId, Long projectionId, BigDecimal price) {
+    public Reservation(Long userId, Long sessionId, BigDecimal price) {
         this.userId = userId;
-        this.projectionId = projectionId;
+        this.sessionId = sessionId;
         this.price = price;
     }
 
@@ -42,12 +42,12 @@ public class Reservation {
         this.userId = userId;
     }
 
-    public Long getProjectionId() {
-        return projectionId;
+    public Long getSessionId() {
+        return sessionId;
     }
 
-    public void setProjectionId(Long projectionId) {
-        this.projectionId = projectionId;
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 
     public BigDecimal getPrice() {

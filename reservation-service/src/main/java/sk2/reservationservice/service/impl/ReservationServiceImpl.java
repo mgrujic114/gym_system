@@ -1,6 +1,6 @@
 package sk2.reservationservice.service.impl;
 
-import sk2.reservationservice.client.movieservice.dto.ProjectionDto;
+import sk2.reservationservice.client.trainingservice.dto.SessionDto;
 import sk2.reservationservice.client.userservice.dto.DiscountDto;
 import sk2.reservationservice.domain.Reservation;
 import sk2.reservationservice.dto.ReservationCreateDto;
@@ -20,25 +20,25 @@ import java.math.BigDecimal;
 public class ReservationServiceImpl implements ReservationService {
 
     private ReservationRepository reservationRepository;
-    private RestTemplate movieServiceRestTemplate;
+    private RestTemplate trainingServiceRestTemplate;
     private RestTemplate userServiceRestTemplate;
 
-    public ReservationServiceImpl(ReservationRepository reservationRepository, RestTemplate movieServiceRestTemplate, RestTemplate userServiceRestTemplate) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository, RestTemplate trainingServiceRestTemplate, RestTemplate userServiceRestTemplate) {
         this.reservationRepository = reservationRepository;
-        this.movieServiceRestTemplate = movieServiceRestTemplate;
+        this.trainingServiceRestTemplate = trainingServiceRestTemplate;
         this.userServiceRestTemplate = userServiceRestTemplate;
     }
 
     @Override
     public void addReservation(ReservationCreateDto reservationCreateDto) {
         //get projection from movie service
-        ResponseEntity<ProjectionDto> projectionDtoResponseEntity = null;
+        ResponseEntity<SessionDto> projectionDtoResponseEntity = null;
         try {
-            projectionDtoResponseEntity = movieServiceRestTemplate.exchange("/projection/"
-                    + reservationCreateDto.getProjectionId(), HttpMethod.GET, null, ProjectionDto.class);
+            projectionDtoResponseEntity = trainingServiceRestTemplate.exchange("/session/"
+                    + reservationCreateDto.getSessionId(), HttpMethod.GET, null, SessionDto.class);
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode().equals(HttpStatus.NOT_FOUND))
-                throw new NotFoundException(String.format("Projection with id: %d not found.", reservationCreateDto.getProjectionId()));
+                throw new NotFoundException(String.format("Projection with id: %d not found.", reservationCreateDto.getSessionId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class ReservationServiceImpl implements ReservationService {
         BigDecimal price = projectionDtoResponseEntity.getBody().getPrice().divide(BigDecimal.valueOf(100))
                 .multiply(BigDecimal.valueOf(100 - discountDtoResponseEntity.getBody().getDiscount()));
         //save reservation
-        Reservation reservation = new Reservation(reservationCreateDto.getUserId(), reservationCreateDto.getProjectionId(), price);
+        Reservation reservation = new Reservation(reservationCreateDto.getUserId(), reservationCreateDto.getSessionId(), price);
         reservationRepository.save(reservation);
     }
 }
