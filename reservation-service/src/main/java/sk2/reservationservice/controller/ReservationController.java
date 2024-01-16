@@ -27,7 +27,7 @@ public class ReservationController {
         return new ResponseEntity<>(userService.findAll(pageable), HttpStatus.OK);
     }*/
 
-    @PostMapping
+    @PostMapping("/book")
     public ResponseEntity<Void> addReservation(@RequestBody @Valid ReservationCreateDto reservationCreateDto) {
         reservationService.addReservation(reservationCreateDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
