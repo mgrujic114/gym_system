@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk2.userservice.dto.UserDto;
+import sk2.userservice.secutiry.CheckSecurity;
 import sk2.userservice.service.UserService;
 import sk2.userservice.service.implementation.ClientServiceImpl;
 
@@ -18,6 +19,7 @@ public class AdminController extends UserController{
         super(userService);
     }
     @GetMapping("/restrict-account")
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
     public ResponseEntity<UserDto> restrictAccount(@RequestHeader("username") String token) {
         Long id = clientService.verifyUser(token);
         return new ResponseEntity<>(clientService.findClientByID(id), HttpStatus.OK);

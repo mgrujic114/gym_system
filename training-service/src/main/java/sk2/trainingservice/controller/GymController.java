@@ -36,13 +36,13 @@ public class GymController {
                             "Default sort order is ascending. " +
                             "Multiple sort criteria are supported.")})
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
     public ResponseEntity<Page<GymDto>> findAll(@RequestHeader("Authorization") String authorization, @ApiIgnore Pageable pageable) {
         return new ResponseEntity<>(screenService.findAll(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_MANAGER"})
     public ResponseEntity<GymDto> findById(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
         return new ResponseEntity<>(screenService.findById(id), HttpStatus.OK);
     }
