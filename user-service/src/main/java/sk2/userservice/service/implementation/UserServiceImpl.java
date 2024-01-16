@@ -1,6 +1,7 @@
 package sk2.userservice.service.implementation;
 
 
+import lombok.Getter;
 import sk2.userservice.domain.Client;
 import sk2.userservice.domain.User;
 import sk2.userservice.domain.UserStatus;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Getter
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -65,6 +67,12 @@ public class UserServiceImpl implements UserService {
     public UserDto add(UserCreateDto userCreateDto) {
         User user = userMapper.userCreateDtoToUser(userCreateDto);
         userRepository.save(user);
+        return userMapper.userToUserDto(user);
+    }
+
+    @Override
+    public UserDto findById(Long id) {
+        User user = userRepository.findById(id).get();
         return userMapper.userToUserDto(user);
     }
 

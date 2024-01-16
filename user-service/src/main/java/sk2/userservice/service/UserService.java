@@ -11,6 +11,7 @@ public interface UserService {
     DiscountDto findDiscount(Long id);
 
     UserDto add(UserCreateDto userCreateDto);
+    UserDto findById(Long id);
 
     TokenResponseDto login(TokenRequestDto tokenRequestDto);
 }

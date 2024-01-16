@@ -25,12 +25,14 @@ public class UserMapper {
         else return null;
     }
     public UserDto userToClientDto(Client user) {
-        UserDto userDto = new ClientDto();
+        ClientDto userDto = new ClientDto();
         userDto.setId(user.getId());
         userDto.setEmail(user.getEmail());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setUsername(user.getUsername());
+        userDto.setNumberOfReservations(user.getNumberOfReservations());
+        userDto.setRestricted(user.getRestricted());
         return userDto;
     }
     public UserDto userToAdminDto(Admin user) {
@@ -69,6 +71,7 @@ public class UserMapper {
         user.setPassword(userCreateDto.getPassword());
         user.setRole(roleRepository.findRoleByName("ROLE_USER").get());
         user.setNumberOfReservations(0);
+        user.setRestricted(false);
 
         return user;
     }

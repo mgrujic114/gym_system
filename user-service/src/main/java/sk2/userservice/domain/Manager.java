@@ -1,15 +1,16 @@
 package sk2.userservice.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
 
 @Entity
 public class Manager extends User{
+    @CreatedDate
     private LocalDate dateOfEmployment;
-    //private Room room;
+    private String gym;
 
     public LocalDate getDateOfEmployment() {
         return dateOfEmployment;
@@ -17,5 +18,13 @@ public class Manager extends User{
 
     public void setDateOfEmployment(LocalDate dateOfEmployment) {
         this.dateOfEmployment = dateOfEmployment;
+    }
+
+    public String getGym() {
+        return gym;
+    }
+
+    public void setGym(String gym) {
+        this.gym = gym;
     }
 }
