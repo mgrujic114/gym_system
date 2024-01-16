@@ -50,7 +50,7 @@ public abstract class UserController {
     }
 
     @ApiOperation(value = "Register user")
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserCreateDto userCreateDto) {
         return new ResponseEntity<>(userService.add(userCreateDto), HttpStatus.CREATED);
     }

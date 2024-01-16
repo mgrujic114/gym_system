@@ -1,6 +1,7 @@
 package sk2.userservice.runner;
 
 import sk2.userservice.domain.*;
+import sk2.userservice.repository.ClientRepository;
 import sk2.userservice.repository.RoleRepository;
 import sk2.userservice.repository.UserRepository;
 import sk2.userservice.repository.UserStatusRepository;
@@ -17,11 +18,14 @@ public class TestDataRunner implements CommandLineRunner {
 
     private RoleRepository roleRepository;
     private UserRepository userRepository;
+    private ClientRepository clientRepository;
+    /*private UserRepository userRepository;*/
     private UserStatusRepository userStatusRepository;
 
-    public TestDataRunner(RoleRepository roleRepository, UserRepository userRepository, UserStatusRepository userStatusRepository) {
+    public TestDataRunner(RoleRepository roleRepository, UserRepository userRepository, ClientRepository clientRepository, UserStatusRepository userStatusRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.clientRepository = clientRepository;
         this.userStatusRepository = userStatusRepository;
     }
 
@@ -59,6 +63,7 @@ public class TestDataRunner implements CommandLineRunner {
         client.setNumberOfReservations(7);
         client.setRestricted(false);
         userRepository.save(client);
+        clientRepository.save(client);
         //User statuses
         userStatusRepository.save(new UserStatus(0, 8, 0));
         userStatusRepository.save(new UserStatus(9, 16, 10));
