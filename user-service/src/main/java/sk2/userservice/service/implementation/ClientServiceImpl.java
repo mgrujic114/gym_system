@@ -121,4 +121,14 @@ public class ClientServiceImpl implements ClientService {
         return client.getId();
     }
 
+    @Override
+    public UserDto restrict(Long id) {
+        Client user = (Client) clientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("User with id: %d not found.", id)));
+        user.setRestricted(!user.getRestricted());
+        return userMapper.userToUserDto(clientRepository.save(user));
+    }
+
+
+
 }

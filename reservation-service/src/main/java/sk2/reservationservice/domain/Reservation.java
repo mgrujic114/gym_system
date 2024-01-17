@@ -1,9 +1,6 @@
 package sk2.reservationservice.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -13,16 +10,17 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
-    private Long sessionId;
+    @ManyToOne
+    private Session session;
     private BigDecimal price;
 
     public Reservation() {
 
     }
 
-    public Reservation(Long userId, Long sessionId, BigDecimal price) {
+    public Reservation(Long userId, Session sessionId, BigDecimal price) {
         this.userId = userId;
-        this.sessionId = sessionId;
+        this.session = sessionId;
         this.price = price;
     }
 
@@ -42,12 +40,12 @@ public class Reservation {
         this.userId = userId;
     }
 
-    public Long getSessionId() {
-        return sessionId;
+    public Session getSession() {
+        return session;
     }
 
-    public void setSessionId(Long sessionId) {
-        this.sessionId = sessionId;
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public BigDecimal getPrice() {

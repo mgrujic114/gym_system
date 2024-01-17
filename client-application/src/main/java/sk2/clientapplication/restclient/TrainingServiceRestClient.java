@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class TrainingServiceRestClient {
 
-    public static final String URL = "http://localhost:8081/api";
+    public static final String URL = "http://localhost:8084/reservation-service/api/reservation";
 
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
@@ -35,7 +35,8 @@ public class TrainingServiceRestClient {
 
         Call call = client.newCall(request);
 
-        Response response = call.execute();
+        Response response = call.
+                execute();
 
         if (response.code() == 200) {
             String json = response.body().string();

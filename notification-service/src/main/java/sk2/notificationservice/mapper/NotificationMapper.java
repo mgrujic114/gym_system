@@ -2,6 +2,7 @@ package sk2.notificationservice.mapper;
 
 import org.springframework.stereotype.Component;
 import sk2.notificationservice.domain.Notification;
+import sk2.notificationservice.dto.ActivationDto;
 import sk2.notificationservice.dto.NotificationDto;
 import sk2.notificationservice.dto.ReservationNotificationDto;
 import sk2.notificationservice.dto.UserDto;
@@ -21,13 +22,13 @@ public class NotificationMapper {
         return  notificationDto;
     }
 
-    /*public Notification activationDtoToNotification (ActivationDto activationDto, String type, String content) {
+    public Notification activationDtoToNotification (ActivationDto activationDto, String type, String content) {
         Notification notification = new Notification();
         notification.setRecipientEmail(activationDto.getMail());
         notification.setType(type);
         notification.setContent(content);
         return notification;
-    }*/
+    }
 
     public List<Notification> reservationNotifDtoToNotification (ReservationNotificationDto reservationNotificationDto,
                                                                  String typeClient, String contentClient, String typeManager, String contentManager){

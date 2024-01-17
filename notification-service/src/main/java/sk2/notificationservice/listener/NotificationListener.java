@@ -2,6 +2,7 @@ package sk2.notificationservice.listener;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
+import sk2.notificationservice.dto.ActivationDto;
 import sk2.notificationservice.dto.UserDto;
 import sk2.notificationservice.listener.helper.MessageHelper;
 import sk2.notificationservice.service.MailService;
@@ -18,14 +19,14 @@ public class NotificationListener {
         this.messageHelper = messageHelper;
         this.emailService = emailService;
     }
-   /* @JmsListener(destination = "${destination.sendConfirmationEmail}", concurrency = "5-10")
+    @JmsListener(destination = "${destination.sendConfirmationEmail}", concurrency = "5-10")
     public void confirmationMail(Message message) throws JMSException, InterruptedException {
         ActivationDto activationDto = messageHelper.getMessage(message, ActivationDto.class);
-        notificationService.sendActivationEmail(activationDto);
-    }*/
+        emailService.sendActivationEmail(activationDto);
+    }
 
     @JmsListener(destination = "${destination.sendPasswordEmail}", concurrency = "5-10")
-    public void passwordResetMail(Message message) throws JMSException {
+    public void passwordResetMail(Message message) throws JMSException, InterruptedException {
         UserDto user = messageHelper.getMessage(message, UserDto.class);
         emailService.sendPasswordResetEmail(user);
     }

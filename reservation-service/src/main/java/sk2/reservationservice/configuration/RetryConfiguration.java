@@ -22,7 +22,7 @@ public class RetryConfiguration {
 
         RetryRegistry retryRegistry = RetryRegistry.of(retryConfig);
 
-        return retryRegistry.retry("movieServiceRetry");
+        return retryRegistry.retry("reservatioinServiceRetry");
     }
 
 }

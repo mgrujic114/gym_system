@@ -2,7 +2,7 @@ package sk2.reservationservice.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import sk2.reservationservice.client.trainingservice.dto.SessionDto;
+import sk2.reservationservice.dto.training.SessionDto;
 
 import java.math.BigDecimal;
 

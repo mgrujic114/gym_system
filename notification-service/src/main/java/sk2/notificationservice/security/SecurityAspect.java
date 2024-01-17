@@ -27,7 +27,7 @@ public class SecurityAspect {
         this.tokenService = tokenService;
     }
 
-    @Around("@annotation(raf.gymnotificationservice.security.CheckSecurity)")
+    @Around("@annotation(sk2.notificationservice.security.CheckSecurity)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         //Get method signature
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();

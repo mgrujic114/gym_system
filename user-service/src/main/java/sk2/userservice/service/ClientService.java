@@ -17,4 +17,6 @@ public interface ClientService {
 
 
     Long verifyUser(String username);
+
+    UserDto restrict(Long id);
 }

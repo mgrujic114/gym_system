@@ -32,10 +32,10 @@ public class MailServiceImpl implements MailService {
         this.notificationMapper = notificationMapper;
     }
 
-    /*@Override
+    @Override
     public void sendActivationEmail(ActivationDto activationDto) throws InterruptedException {
         String content = "Hello " + activationDto.getFirstName() + ",\n\nYour new account has been created. Please click the link below to verify your account. \n\n" +
-                "http://localhost:8083/gym-user-service/api/user/confirm-account?token=" + activationDto.getToken();
+                "http://localhost:8084/user-service/api/client/confirm-account?token=" + activationDto.getToken();
 
         Notification notification = notificationMapper.activationDtoToNotification(activationDto, "actication", content);
         notificationRepository.save(notification);
@@ -66,7 +66,7 @@ public class MailServiceImpl implements MailService {
             System.err.println("Authentication failed. Waiting before the next attempt.");
             Thread.sleep(5000); // 5 seconds delay
         }
-    }*/
+    }
 
     @Override
     public void sendPasswordResetEmail(UserDto userDto) throws InterruptedException {
@@ -149,7 +149,7 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-   /* @Override
+    @Override
     public void sendAppointmentCancellationNotification(NotificationCancellationDto notificationCancellationDto) {
         String contentClient = "Training has been cancelled.";
         String contentManager = "You deleted appointment.";
@@ -195,10 +195,6 @@ public class MailServiceImpl implements MailService {
         notificationRepository.save(new Notification("reservation-cancellation", notificationCancellationDto.getClientEmails().get(0), contentClient));
     }
 
-    @Override
-    public void sendReminderNotification(ReservationNotificationDto reservationNotificationDto) {
-
-    }*/
    @Override
    public void sendReminderNotification(ReservationNotificationDto reservationNotificationDto) {
 

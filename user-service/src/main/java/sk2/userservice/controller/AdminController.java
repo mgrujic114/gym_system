@@ -9,6 +9,8 @@ import sk2.userservice.service.ClientService;
 import sk2.userservice.service.UserService;
 import sk2.userservice.service.implementation.ClientServiceImpl;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController extends UserController{
@@ -17,10 +19,9 @@ public class AdminController extends UserController{
         super(service);
         this.clientService = userService;
     }
-    @PostMapping("/restrict-account")
+    @PutMapping("/restrict-account")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<UserDto> restrictAccount(@RequestHeader("username") String username) {
-        Long id = clientService.verifyUser(username);
-        return new ResponseEntity<>(clientService.findClientByID(id), HttpStatus.OK);
+    public ResponseEntity<UserDto> restrictAccount(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
+        return new ResponseEntity<>(clientService.restrict(id), HttpStatus.OK);
     }
 }
