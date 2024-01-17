@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
-public abstract class UserController {
+public class UserController {
     private UserService userService;
 
     public UserController(UserService userService) {
@@ -49,11 +49,6 @@ public abstract class UserController {
         return new ResponseEntity<>(userService.findDiscount(id), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Register user")
-    @PostMapping("/register")
-    public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserCreateDto userCreateDto) {
-        return new ResponseEntity<>(userService.add(userCreateDto), HttpStatus.CREATED);
-    }
 
     @ApiOperation(value = "Login")
     @PostMapping("/login")
