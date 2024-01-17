@@ -5,16 +5,22 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-@Component
-public class MailService {
-    @Autowired
-    public JavaMailSender mailSender;
 
-    public void sendSimpleMessage(String to, String subject, String text){
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        mailSender.send(message);
-    }
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import sk2.notificationservice.domain.Notification;
+import sk2.notificationservice.dto.*;
+
+import java.util.List;
+import java.util.Map;
+
+public interface MailService{
+   /* void sendActivationEmail(ActivationDto activationDto) throws InterruptedException;*/
+    void sendPasswordResetEmail(UserDto userDto) throws InterruptedException;
+    void sendSuccessfulReservationNotification(ReservationNotificationDto reservationNotificationDto) throws InterruptedException;
+    /*void sendAppointmentCancellationNotification(NotificationCancellationDto notificationCancellationDto);
+    void sendReservationCancellationNotification(NotificationCancellationDto notificationCancellationDto);*/
+    void sendReminderNotification(ReservationNotificationDto reservationNotificationDto);
+
+    Page<NotificationDto> getAllNotificationsForAdmin(Pageable pageable);
 }

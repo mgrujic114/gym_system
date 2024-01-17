@@ -6,5 +6,5 @@ public class ClientCreateDto extends UserCreateDto{
 
     private Integer numberOfReservations;
     @NotNull
-    private Boolean restricted;
+    private Boolean restricted = false;
 }

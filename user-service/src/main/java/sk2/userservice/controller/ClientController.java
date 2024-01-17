@@ -8,37 +8,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sk2.userservice.dto.ClientCreateDto;
-import sk2.userservice.dto.ClientDto;
-import sk2.userservice.dto.DiscountDto;
-import sk2.userservice.dto.UserDto;
+import sk2.userservice.dto.*;
 import sk2.userservice.secutiry.CheckSecurity;
 import sk2.userservice.service.ClientService;
 import sk2.userservice.service.UserService;
+
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/client")
-public class ClientController {
+public class ClientController extends UserController{
     private ClientService clientService;
 
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
-    }
+    public ClientController(UserService service, ClientService clientService) {
+        super(service);
 
-    @ApiOperation(value = "Get all users")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "page", value = "What page number you want", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "size", value = "Number of items to return", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-                    value = "Sorting criteria in the format: property(,asc|desc). " +
-                            "Default sort order is ascending. " +
-                            "Multiple sort criteria are supported.")})
-    @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<Page<UserDto>> getAllClients(@RequestHeader("Authorization") String authorization, Pageable pageable) {
-        return new ResponseEntity<>(clientService.findAllClients(pageable), HttpStatus.OK);
+        this.clientService = clientService;
     }
 
     @GetMapping("/confirm-account")
@@ -47,14 +33,10 @@ public class ClientController {
         return new ResponseEntity<>(clientService.findClientByID(id), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/discount")
-    public ResponseEntity<DiscountDto> getDiscount(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(clientService.findDiscount(id), HttpStatus.OK);
+    @ApiOperation(value = "Register user")
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> saveUser(@RequestBody @Valid ClientCreateDto userCreateDto) {
+        return new ResponseEntity<>(clientService.addClient(userCreateDto), HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "Register client")
-    @PostMapping
-    public ResponseEntity<ClientDto> saveClient(@RequestBody @Valid ClientCreateDto clientCreateDto) {
-        return new ResponseEntity<>(clientService.addClient(clientCreateDto), HttpStatus.CREATED);
-    }
 }
