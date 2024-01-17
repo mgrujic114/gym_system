@@ -1,7 +1,8 @@
 package sk2.userservice.service.implementation;
 
 
-import org.springframework.beans.factory.annotation.Value;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jms.core.JmsTemplate;
@@ -9,18 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk2.userservice.domain.Client;
 
+import sk2.userservice.domain.Role;
 import sk2.userservice.domain.User;
 import sk2.userservice.domain.UserStatus;
-import sk2.userservice.dto.ClientCreateDto;
-import sk2.userservice.dto.ClientDto;
-import sk2.userservice.dto.DiscountDto;
-import sk2.userservice.dto.UserDto;
+import sk2.userservice.dto.*;
 import sk2.userservice.exception.NotFoundException;
 import sk2.userservice.mapper.UserMapper;
-import sk2.userservice.repository.ClientRepository;
 import sk2.userservice.repository.RoleRepository;
 
+import sk2.userservice.repository.UserRepository;
 import sk2.userservice.repository.UserStatusRepository;
+import sk2.userservice.secutiry.service.TokenService;
 import sk2.userservice.service.ClientService;
 
 import java.util.List;
@@ -28,20 +28,21 @@ import java.util.List;
 @Service
 @Transactional
 public class ClientServiceImpl implements ClientService {
-    private ClientRepository clientRepository;
+    private UserRepository clientRepository;
     private UserStatusRepository userStatusRepository;
     private RoleRepository roleRepository;
     private UserMapper userMapper;
-    private JmsTemplate jmsTemplate;
+    private TokenService tokenService;
 
-    public ClientServiceImpl(ClientRepository clientRepository, UserStatusRepository userStatusRepository, RoleRepository roleRepository,
-                             UserMapper userMapper, JmsTemplate jmsTemplate) {
+
+    public ClientServiceImpl(UserRepository clientRepository, UserStatusRepository userStatusRepository, RoleRepository roleRepository,
+                             TokenService tokenService, UserMapper userMapper) {
         this.clientRepository = clientRepository;
         this.userStatusRepository = userStatusRepository;
         this.roleRepository = roleRepository;
-
+        this.tokenService = tokenService;
         this.userMapper = userMapper;
-        this.jmsTemplate = jmsTemplate;
+
     }
 
     @Override
@@ -53,6 +54,11 @@ public class ClientServiceImpl implements ClientService {
     public UserDto findClientByID(Long id){
         Client user = (Client) clientRepository.findById(id).get();
         return userMapper.userToUserDto(user);
+    }
+
+    @Override
+    public UserDto findClientByRole(Role role) {
+        return null;
     }
 
     @Override
@@ -89,6 +95,23 @@ public class ClientServiceImpl implements ClientService {
         return null;
     }
 
+    @Override
+    public TokenResponseDto login(TokenRequestDto tokenRequestDto) {
+        //Try to find active user for specified credentials
+        User user = clientRepository
+                .findUserByUsernameAndPassword(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
+                .orElseThrow(() -> new NotFoundException(String
+                        .format("User with username: %s and password: %s not found.", tokenRequestDto.getUsername(),
+                                tokenRequestDto.getPassword())));
+        //Create token payload
+        Claims claims = Jwts.claims();
+        claims.put("id", user.getId());
+        claims.put("role", user.getRole().getName());
+        //Generate token
+        return new TokenResponseDto(tokenService.generate(claims));
+    }
+
+    @Override
     public Long verifyUser(String token) {
         Client client = (Client) clientRepository.findByUsername(token);
 

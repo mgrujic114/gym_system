@@ -22,7 +22,15 @@ public class UserMapper {
         if (user instanceof Client) return userToClientDto((Client) user);
         if (user instanceof Admin) return userToAdminDto((Admin) user);
         if (user instanceof Manager) return userToManagerDto((Manager) user);
-        else return null;
+        else {
+            ClientDto userDto = new ClientDto();
+            userDto.setId(user.getId());
+            userDto.setEmail(user.getEmail());
+            userDto.setFirstName(user.getFirstName());
+            userDto.setLastName(user.getLastName());
+            userDto.setUsername(user.getUsername());
+            return userDto;
+        }
     }
     public UserDto userToClientDto(Client user) {
         ClientDto userDto = new ClientDto();
@@ -58,7 +66,16 @@ public class UserMapper {
         if (user instanceof ClientCreateDto) return userCreateDtoToClient((ClientCreateDto) user);
         if (user instanceof AdminCreateDto) return userCreateDtoToAdmin((AdminCreateDto) user);
         if (user instanceof ManagerCreateDto) return userCreateDtoToManager((ManagerCreateDto) user);
-        else return null;
+        else {
+            Client newUser = new Client();
+            newUser.setEmail(user.getEmail());
+            newUser.setFirstName(user.getFirstName());
+            newUser.setLastName(user.getLastName());
+            newUser.setUsername(user.getUsername());
+            newUser.setPassword(user.getPassword());
+            newUser.setRole(roleRepository.findRoleByName("ROLE_USER").get());
+            return null;
+        }
 
     }
 
